@@ -1,48 +1,40 @@
 <?php 
 
-//Panggil Koneksi dan function
+session_start();
+
+if ( !isset($_SESSION['login']) ) {
+header("Location: login.php");
+exit;
+}
+
 require 'function.php';
 
-//Cek apakah tombol sudah di tekan
 if (isset($_POST['submit'])) {
+	if (tambah($_POST)>0) {
+		alert('Berhasil Ditambahkan','index.php');
+	}
+	else{
+		alert('Gagal Ditambahkan','index.php');
+	}
 
-	//Tampilkan Pesan Berhasil atau tidak Input Data
-	if (input()>0) {
-		$pesan="Sukses Tambah Data";
-		$url ="index.php";
-	}
-	else
-	{
-		$pesan="Gagal Tambah Data";
-		$url ="#";
-	}
-	alert($pesan,$url);
 }
 
  ?>
+
  <!DOCTYPE html>
- <html>
+ <html lang="en">
  <head>
- 	<title>Tambah Data</title>
+ 	<meta charset="UTF-8">
+ 	<title>EDIT</title>
  </head>
  <body>
- 	<h1>INPUT DATA SISWA</h1>
- 	<form method="post" action="">
- 		<ul>
- 			<li>
- 				<label>Nama Siswa</label>
- 				<input type="text" name="namasiswa">
- 			</li>
- 			<li>
- 				<label>Kelas</label>
- 				<input type="text" name="kelas">
- 			</li>
- 			<li>
- 				<label>Jurusan</label>
- 				<input type="text" name="jurusan">
- 			</li>
- 			<button name="submit" type="submit">TAMBAH DATA</button>
- 		</ul>
+ 	<form action="" method="post" enctype="multipart/form-data">
+ 	<label for="nim">NIM : </label><input name="nim" id="nim" type="text"><br>
+ 	<label for="nama">NAMA : </label><input name="nama" id="nama" type="text"><br>
+ 	<label for="email">EMAIL : </label><input name="email" id="email" type="text"><br>
+ 	<label for="jurusan">JURUSAN : </label><input name="jurusan" id="jurusan" type="text"><br>
+ 	<label for="gambar">GAMBAR : </label><input name="gambar" id="gambar" type="file"><br>
+ 	<button name="submit" type="submit">TAMBAH DATA</button>
  	</form>
  </body>
  </html>

@@ -1,51 +1,43 @@
 <?php 
+session_start();
 
-//Panggil Koneksi dan function
+if ( !isset($_SESSION['login']) ) {
+header("Location: login.php");
+exit;
+}
 require 'function.php';
 $id = $_GET['id'];
-$query = "SELECT * FROM siswa WHERE '$id'";
-$data = tampiluser($query)[0];
+$data = tampil("SELECT * FROM mhs WHERE id='$id'")[0];
+
 
 if (isset($_POST['submit'])) {
+	if (edit($_POST)>0) {
+		alert('Berhasil Ditambahkan','index.php');
+	} else{
+		alert('Gagal Ditambahkan','index.php');
+	}
 
-	//Tampilkan Pesan Berhasil atau tidak Input Data
-	if (edit()>0) {
-		$pesan="Sukses Edit Data";
-		$url ="index.php";
-	}
-	else
-	{
-		$pesan="Gagal Edit Data";
-		$url ="#";
-	}
-	alert($pesan,$url);
 }
 
  ?>
+
  <!DOCTYPE html>
- <html>
+ <html lang="en">
  <head>
- 	<title>Tambah Data</title>
+ 	<meta charset="UTF-8">
+ 	<title>EDIT</title>
  </head>
  <body>
- 	<h1>EDIT DATA SISWA</h1>
- 	<form method="post" action="">
- 		<input type="hidden" value="<?=$data['id']; ?>" name="id">
- 		<ul>
- 			<li>
- 				<label>Nama Siswa</label>
- 				<input type="text" value="<?=$data['nama']; ?>" name="namasiswa">
- 			</li>
- 			<li>
- 				<label>Kelas</label>
- 				<input type="text" value="<?=$data['kelas']; ?>" name="kelas">
- 			</li>
- 			<li>
- 				<label>Jurusan</label>
- 				<input type="text" value="<?=$data['jurusan']; ?>" name="jurusan">
- 			</li>
- 			<button name="submit" type="submit">RUBAH</button>
- 		</ul>
+ 	<form method="post" enctype="multipart/form-data">
+ 		<img width="100" src="images/<?=$data['gambar']; ?>" alt=""><br>
+ 		<input type="hidden" name="gambarLama" value="<?=$data['gambar']; ?>">
+ 		<input name="id" type="hidden" value="<?=$data['id']; ?>" >
+ 		<label for="GAMBAR">GAMBAR : </label><input value="<?=$data['gambar']; ?>" name="gambar" id="GAMBAR" type="file"><br>
+	 	<label for="nim">NIM : </label><input value="<?=$data['nim']; ?>" name="nim" id="nim" type="text"><br>
+	 	<label for="nama">NAMA : </label><input value="<?=$data['nama']; ?>" name="nama" id="nama" type="text"><br>
+	 	<label for="email">EMAIL : </label><input value="<?=$data['email']; ?>" name="email" id="email" type="text"><br>
+	 	<label for="jurusan">JURUSAN : </label><input value="<?=$data['jurusan']; ?>" name="jurusan" id="jurusan" type="text"><br>
+	 	<button name="submit" type="submit">EDIT DATA</button>
  	</form>
  </body>
  </html>
